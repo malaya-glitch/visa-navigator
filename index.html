@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VisaNavigator — Tourist Visa Roadmaps & Mandatory Document Checklists</title>
+  <meta name="description" content="Interactive tourist visa requirement roadmaps, 6-month passport validity checker, processing timelines, fees, and mandatory document checklists for 50+ popular global destinations.">
+  
+  <!-- Font Awesome Icons for travel badges -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       Site Header / Navigation
+       ====================================================================== -->
+  <header class="site-header">
+    <div class="header-container container">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <i class="fas fa-globe-americas"></i>
+        </div>
+        <div class="brand-text">
+          <h1>VisaNavigator <span class="brand-badge">Client-Side</span></h1>
+          <span class="brand-subtitle">Tourist Visa Roadmaps & Mandatory Document Checklists</span>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <!-- Origin Passport Switcher -->
+        <div class="origin-selector-wrap" title="Select your passport to view realistic visa requirements">
+          <span class="origin-label"><i class="fas fa-passport"></i> Passport:</span>
+          <select id="originSelect" class="origin-select" aria-label="Select your passport country">
+            <!-- Populated dynamically from js/data.js -->
+          </select>
+        </div>
+
+        <!-- Compare Nav Button -->
+        <button id="compareNavBtn" class="header-btn" title="Compare visa rules between two countries">
+          <i class="fas fa-code-compare"></i> Compare
+        </button>
+
+        <!-- Theme Toggle Button -->
+        <button id="themeToggleBtn" class="theme-toggle-btn" aria-label="Toggle dark/light mode" title="Toggle theme">
+          🌙
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ====================================================================
+         Hero Section
+         ==================================================================== -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-pill">
+          <i class="fas fa-plane-departure"></i> 100% Free & Interactive • No Backend Required
+        </div>
+        <h2 class="hero-title">
+          Never Get Stuck at Border Control with <span>VisaNavigator</span>
+        </h2>
+        <p class="hero-desc">
+          Demystify complex foreign tourist visa categories (Visa-Free, Visa on Arrival, eVisa, Embassy Paper Visas), verify the strict <strong>6-month passport validity rule</strong>, and track your mandatory travel documents with an interactive checklist.
+        </p>
+
+        <div class="hero-quick-features">
+          <div class="feature-tag">
+            <i class="fas fa-check-circle"></i> 50+ Top Tourist Nations
+          </div>
+          <div class="feature-tag">
+            <i class="fas fa-shield-alt"></i> 6-Month Passport Rule Checker
+          </div>
+          <div class="feature-tag">
+            <i class="fas fa-clock"></i> Embassy Processing Timelines & Fees
+          </div>
+          <div class="feature-tag">
+            <i class="fas fa-tasks"></i> Interactive Checklists & PDF Export
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <!-- ==================================================================
+           Interactive 6-Month Passport Validity Calculator Panel
+           ================================================================== -->
+      <section class="passport-calculator-panel" aria-label="Passport Validity Calculator">
+        <div class="calc-header">
+          <div class="calc-title-group">
+            <div class="calc-icon">
+              <i class="fas fa-calculator"></i>
+            </div>
+            <div>
+              <h3>6-Month Passport Validity Rule Calculator</h3>
+              <p>Over 100 countries require passports to be valid for at least 6 months beyond travel dates.</p>
+            </div>
+          </div>
+          <span class="calc-rule-badge">
+            <i class="fas fa-info-circle"></i> International ICAO Standard
+          </span>
+        </div>
+
+        <div class="calc-form-grid">
+          <div class="calc-field">
+            <label for="departureDateInput">Planned Travel / Departure Date:</label>
+            <input type="date" id="departureDateInput">
+          </div>
+          <div class="calc-field">
+            <label for="passportExpiryInput">Passport Expiration Date:</label>
+            <input type="date" id="passportExpiryInput">
+          </div>
+          <button id="calcCheckBtn" class="calc-submit-btn">
+            <i class="fas fa-shield-check"></i> Check Validity
+          </button>
+        </div>
+
+        <!-- Dynamic Calculation Result Box -->
+        <div id="calcResultBox" class="calc-result-box">
+          <div class="calc-result-content">
+            <div id="calcResultIcon" class="calc-result-icon"></div>
+            <div id="calcResultDetails" class="calc-result-details"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           Search & Filter Control Bar
+           ================================================================== -->
+      <section class="controls-panel">
+        <!-- Search Input -->
+        <div class="search-input-wrapper">
+          <i class="fas fa-search search-icon"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            class="search-input" 
+            placeholder="Search destination country, capital, or top city (e.g., Thailand, Dubai UAE, UK, France Schengen, Japan, Singapore, Bali)... [Press /]"
+            aria-label="Search destinations"
+          >
+          <button id="searchClearBtn" class="search-clear-btn" aria-label="Clear search">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+
+        <div class="filter-sections-grid">
+          <!-- Visa Category Filter Pills -->
+          <div class="filter-row">
+            <span class="filter-label">Visa Status:</span>
+            <div id="categoryFilterPills" class="filter-pills">
+              <button class="filter-pill active" data-category="all">
+                All Categories (50+)
+              </button>
+              <button class="filter-pill" data-category="visa_free">
+                <span class="pill-dot visa_free"></span> Visa-Free (30–90 Days)
+              </button>
+              <button class="filter-pill" data-category="voa">
+                <span class="pill-dot voa"></span> Visa on Arrival (VoA)
+              </button>
+              <button class="filter-pill" data-category="evisa">
+                <span class="pill-dot evisa"></span> Instant Online eVisa
+              </button>
+              <button class="filter-pill" data-category="embassy">
+                <span class="pill-dot embassy"></span> Regular Embassy Paper Visa
+              </button>
+            </div>
+          </div>
+
+          <!-- Region / Continent Filter Pills -->
+          <div class="filter-row">
+            <span class="filter-label">Continent:</span>
+            <div id="regionFilterPills" class="filter-pills">
+              <button class="filter-pill active" data-region="all">All Continents</button>
+              <button class="filter-pill" data-region="Asia">Asia</button>
+              <button class="filter-pill" data-region="Europe">Europe</button>
+              <button class="filter-pill" data-region="Americas">Americas</button>
+              <button class="filter-pill" data-region="Africa">Africa</button>
+              <button class="filter-pill" data-region="Oceania">Oceania</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Meta Results Bar -->
+        <div class="results-meta-bar">
+          <div id="resultsCount" class="results-count">
+            Loading destinations...
+          </div>
+          <div class="sort-select-wrapper">
+            <label for="sortSelect">Sort by:</label>
+            <select id="sortSelect" class="sort-select">
+              <option value="name-asc">Destination Name (A to Z)</option>
+              <option value="name-desc">Destination Name (Z to A)</option>
+              <option value="fee-low">Visa Fee (Lowest First)</option>
+              <option value="fee-high">Visa Fee (Highest First)</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           Countries Grid
+           ================================================================== -->
+      <section id="countriesGrid" class="countries-grid" aria-label="Tourist Destinations Grid">
+        <!-- Rendered dynamically by js/app.js -->
+      </section>
+    </div>
+  </main>
+
+  <!-- ======================================================================
+       Modal: Detailed Visa Requirement Roadmap & Mandatory Document Checklist
+       ====================================================================== -->
+  <div id="countryModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalCountryName">
+    <div class="modal-card">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-header-info">
+          <span id="modalFlag" class="modal-flag"></span>
+          <div class="modal-titles">
+            <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+              <h2 id="modalCountryName">Country Name</h2>
+              <span id="modalVisaBadge" class="visa-badge"></span>
+            </div>
+            <div class="modal-titles-sub">
+              <span id="modalRegion"></span> •
+              <span id="modalCapital"></span> •
+              <span id="modalCurrency"></span>
+            </div>
+          </div>
+        </div>
+        <button id="modalCloseBtn" class="modal-close-btn" aria-label="Close dialog">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body">
+        <!-- Quick Specs Banner -->
+        <div id="modalSpecsGrid" class="detail-specs-grid"></div>
+
+        <!-- Mandatory Passport Validity Banner -->
+        <div id="modalPassportRule" class="modal-passport-rule-box"></div>
+
+        <!-- Navigation Tabs -->
+        <div id="modalNavTabs" class="modal-nav-tabs">
+          <button class="tab-btn active" data-tab="roadmap">
+            <i class="fas fa-route"></i> Visa Requirement Roadmap
+          </button>
+          <button class="tab-btn" data-tab="checklist">
+            <i class="fas fa-tasks"></i> Mandatory Document Checklist
+          </button>
+          <button class="tab-btn" data-tab="advisory">
+            <i class="fas fa-info-circle"></i> Border Spot Checks & Policies
+          </button>
+        </div>
+
+        <!-- Tab 1: Step-by-Step Visa Requirement Roadmap -->
+        <div id="tabRoadmap" class="tab-pane active">
+          <div class="roadmap-container">
+            <div id="roadmapTimeline" class="roadmap-timeline"></div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Mandatory Document Checklist Generator -->
+        <div id="tabChecklist" class="tab-pane">
+          <div class="checklist-wrapper">
+            <!-- Progress & Controls Bar -->
+            <div class="checklist-control-bar">
+              <div class="checklist-progress-info">
+                <div class="progress-label-row">
+                  <span>Document Readiness</span>
+                  <span id="checklistProgressText">0 of 5 Prepared (0%)</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div id="checklistProgressBar" class="progress-bar-fill" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div class="checklist-action-buttons">
+                <button id="copyChecklistBtn" class="checklist-btn" title="Copy full checklist as formatted text">
+                  <i class="fas fa-copy"></i> Copy Checklist
+                </button>
+                <button id="printChecklistBtn" class="checklist-btn primary" title="Print clean checklist or Save as PDF">
+                  <i class="fas fa-print"></i> Print / Save PDF
+                </button>
+                <button id="resetChecklistBtn" class="checklist-btn" title="Reset all checkboxes">
+                  <i class="fas fa-undo"></i> Reset
+                </button>
+              </div>
+            </div>
+
+            <!-- Checklist Items -->
+            <div id="checklistContainer" class="checklist-items-container">
+              <!-- Rendered dynamically -->
+            </div>
+
+            <!-- Custom Document Add Input -->
+            <div class="add-custom-item-box">
+              <input type="text" id="customDocInput" class="add-custom-input" placeholder="Add custom document (e.g. Yellow Fever Certificate, Student ID, Sponsorship Letter)...">
+              <button id="addCustomDocBtn" class="add-custom-btn">
+                <i class="fas fa-plus"></i> Add Item
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Official Advisory & Policies -->
+        <div id="tabAdvisory" class="tab-pane">
+          <div id="advisoryContent"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Modal: Side-by-Side Country Visa Comparison
+       ====================================================================== -->
+  <div id="compareModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="compareTitle">
+    <div class="modal-card compare-modal-card">
+      <div class="modal-header">
+        <div class="modal-header-info">
+          <div class="modal-titles">
+            <h2 id="compareTitle"><i class="fas fa-code-compare"></i> Compare Destination Visa Requirements</h2>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Compare visa rules, costs, processing times, and document strictness side-by-side.</p>
+          </div>
+        </div>
+        <button id="compareCloseBtn" class="modal-close-btn" aria-label="Close compare dialog">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="compare-selectors-grid">
+          <div>
+            <label style="display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem;">Destination A:</label>
+            <select id="compareSelectA" class="compare-select"></select>
+          </div>
+          <span class="compare-vs-pill">VS</span>
+          <div>
+            <label style="display: block; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.35rem;">Destination B:</label>
+            <select id="compareSelectB" class="compare-select"></select>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="compare-table">
+            <thead>
+              <tr>
+                <th>Requirement Metric</th>
+                <th>Destination A</th>
+                <th>Destination B</th>
+              </tr>
+            </thead>
+            <tbody id="compareTableBody">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Toast Notification
+       ====================================================================== -->
+  <div id="toastNotice" class="toast-notice" role="alert" aria-live="polite">
+    <i class="fas fa-check-circle" style="color: #22c55e;"></i>
+    <span id="toastText">Notification text</span>
+  </div>
+
+  <!-- ======================================================================
+       Site Footer
+       ====================================================================== -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p><strong>VisaNavigator</strong> — An interactive front-end travel visa intelligence & checklist platform.</p>
+      <p class="footer-disclaimer">
+        Disclaimer: Visa categories, government fees, and timelines are compiled from official embassy resources and are subject to change without notice by national immigration authorities. Always verify current entry requirements with the destination country's embassy or official consulate prior to travel.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
