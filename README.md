@@ -1,6 +1,6 @@
 # VisaNavigator ✈️ — Tourist Visa Roadmaps & Mandatory Document Checklists
 
-A modern, responsive, 100% client-side web application built with **HTML5, CSS3, and Vanilla JavaScript** that eliminates tourist confusion surrounding foreign visa categories, passport validity regulations, and mandatory entry document preparation.
+A modern, responsive web application built with **HTML5, CSS3, and Vanilla JavaScript** that eliminates tourist confusion surrounding foreign visa categories, passport validity regulations, and mandatory entry document preparation.
 
 ---
 
@@ -66,7 +66,7 @@ Clear, color-coded visual badges for all major tourist entry categories:
 
 ## 🚀 How to Run the Application
 
-Because this application is **100% frontend and client-side**, there are **no backend services, build steps, or dependencies required**.
+Because there are **no backend services, build steps, or dependencies required**, running this application is simple and immediate.
 
 ### Option A: Open Directly in Any Web Browser
 1. Navigate to the project folder:
